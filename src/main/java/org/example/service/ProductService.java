@@ -7,6 +7,7 @@ import org.example.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.OptionalDouble;
 
 @Service
 @AllArgsConstructor
@@ -30,5 +31,11 @@ public class ProductService {
     }
     public void delete(Long id){
         productRepository.deleteById(id);
+    }
+    public List<Product> readFilter(String status){
+       return productRepository.findAllByStatus(status);
+    }
+    public Double sumValue(){
+        return productRepository.sumValueByStatus();
     }
 }

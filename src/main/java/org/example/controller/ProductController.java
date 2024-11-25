@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping("/products")
@@ -24,6 +25,14 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<Product>> readAll() {
         return new ResponseEntity<>(productService.readAll(), HttpStatus.OK);
+    }
+    @GetMapping("/{status}")
+    public ResponseEntity<List<Product>> findAllByStatus(@PathVariable String status) {
+        return new ResponseEntity<>(productService.readFilter(status), HttpStatus.OK);
+    }
+    @GetMapping("/value")
+    public ResponseEntity<Double> sumValue(){
+        return new ResponseEntity<>(productService.sumValue(), HttpStatus.OK);
     }
 
     @PutMapping
