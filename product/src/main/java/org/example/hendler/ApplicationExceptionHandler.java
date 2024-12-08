@@ -1,17 +1,20 @@
 package org.example.hendler;
 
-
-
 import jakarta.validation.ConstraintViolationException;
+import org.example.dto.ApiError;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -25,6 +28,7 @@ public class ApplicationExceptionHandler {
 
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, String>> handleConstraintViolation(ConstraintViolationException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -34,4 +38,23 @@ public class ApplicationExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ApiError> handleNoSuchElementException(NoSuchElementException ex) {
+        ApiError apiError = new ApiError("Resource not found ", ex.getMessage());
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<ApiError> handleDuplicateKeyException(DuplicateKeyException ex){
+        ApiError apiError = new ApiError("Key duplication error ", ex.getMessage());
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ApiError> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        ApiError apiError = new ApiError("The requested resource was not found: ",  ex.getMessage());
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<String> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("Method not supported: " + ex.getMessage());
+    }
 }
