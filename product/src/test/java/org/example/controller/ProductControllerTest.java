@@ -21,7 +21,8 @@ import org.mockito.Mock;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @SpringBootTest
@@ -103,7 +104,54 @@ class ProductControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/products/{status}")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString("Sellable")))
-                .andExpect()
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].productId").value(product1.getProductId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(product1.getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].fulfillmentCenter").value(product1.getFulfillmentCenter()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].quantity").value(product1.getQuantity()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].value").value(product1.getValue()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].productId").value(product1.getProductId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].status").value(product1.getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].fulfillmentCenter").value(product1.getFulfillmentCenter()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].quantity").value(product1.getQuantity()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].value").value(product1.getValue()))
+                .andDo(print());
 
+    }
+    @Test
+    void sumValueTest() throws Exception {
+        when(productService.sumValue()).thenReturn(874.0);
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/value")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("874.0"))
+                .andDo(print());
+
+    }
+    @Test
+    void testUpdateProduct() throws Exception {
+
+        when(productService.update(product1)).thenReturn(product1);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/products") // Assuming the endpoint is /products
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(product1)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(product1.getProductId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(product1.getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.fulfillmentCenter").value(product1.getFulfillmentCenter()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(product1.getQuantity()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.value").value(product1.getValue()))
+                .andDo(print());
+    }
+    @Test
+    void testDeleteProduct() throws Exception {
+        Long productId = 1L;
+        doNothing().when(productService).delete(productId);
+        mockMvc.perform(delete("/products/{id}", productId))
+                .andExpect(status().isOk());
+
+        verify(productService).delete(productId);
     }
 }
