@@ -1,11 +1,10 @@
-package org.example.service;
+package org.example.fulfillment.services;
 
 import com.opencsv.CSVReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import lombok.AllArgsConstructor;
-import org.example.dto.ProductDTO;
-import org.example.entity.Product;
-import org.example.repository.ProductRepository;
+import org.example.fulfillment.dto.ProductDTO;
+import org.example.fulfillment.entity.Product;
+import org.example.fulfillment.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;

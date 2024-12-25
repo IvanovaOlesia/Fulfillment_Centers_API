@@ -1,20 +1,17 @@
-package org.example.controller;
+package org.example.fulfillment.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.fulfillment.dto.ProductDTO;
+import org.example.fulfillment.entity.Product;
+import org.example.fulfillment.services.ProductService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.example.dto.ProductDTO;
-import org.example.entity.Product;
-import org.example.service.ProductService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 

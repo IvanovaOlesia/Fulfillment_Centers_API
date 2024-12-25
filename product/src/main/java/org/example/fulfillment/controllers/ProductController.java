@@ -1,28 +1,23 @@
-package org.example.controller;
+package org.example.fulfillment.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import org.example.dto.ProductDTO;
-import org.example.entity.Product;
-import org.example.service.ProductService;
+import org.example.fulfillment.dto.ProductDTO;
+import org.example.fulfillment.entity.Product;
+import org.example.fulfillment.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Tag(name = "main_methods")
 @RestController
-@RequestMapping("/products")
+@RequestMapping("api/products")
 @AllArgsConstructor
 @Validated
 public class ProductController {
@@ -31,7 +26,7 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "Create a new product",
             description = "Creates a new product based on the provided ProductDTO.")
-    public ResponseEntity<?> create(@RequestBody @Validated  ProductDTO dto) {
+    public ResponseEntity<?> create(@RequestBody @Validated ProductDTO dto) {
         return new ResponseEntity<>(productService.create(dto), HttpStatus.OK);
     }
 
@@ -41,7 +36,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> readAll() {
         return new ResponseEntity<>(productService.readAll(), HttpStatus.OK);
     }
-    @GetMapping("/{status}")
+    @GetMapping("/status/{status}")
     @Operation(summary = "Find products by status",
             description = "Retrieves a list of products filtered by the specified status.")
     public ResponseEntity<List<Product>> findAllByStatus(@PathVariable  @Pattern(regexp = "Sellable|Unfulfillable|Inbound", message = "Status must be one of: Sellable, Unfulfillable, Inbound")  String status) {

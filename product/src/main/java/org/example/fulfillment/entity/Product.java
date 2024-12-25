@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.fulfillment.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
