@@ -1,7 +1,7 @@
-package org.example.fulfillment.exception;
+package org.example.exception;
 
 import jakarta.validation.ConstraintViolationException;
-import org.example.fulfillment.dto.ApiError;
+import org.example.dto.ApiError;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

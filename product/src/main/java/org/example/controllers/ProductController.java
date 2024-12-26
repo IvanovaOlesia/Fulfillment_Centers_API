@@ -1,23 +1,24 @@
-package org.example.fulfillment.controllers;
+package org.example.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import org.example.fulfillment.dto.ProductDTO;
-import org.example.fulfillment.entity.Product;
-import org.example.fulfillment.services.ProductService;
+import org.example.dto.ProductDTO;
+import org.example.entity.Product;
+import org.example.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Tag(name = "main_methods")
 @RestController
-@RequestMapping("api/products")
+@RequestMapping("/api/products")
 @AllArgsConstructor
 @Validated
 public class ProductController {
@@ -45,7 +46,7 @@ public class ProductController {
     @GetMapping("/value")
     @Operation(summary = "Calculate total value of products",
             description = "Calculates and returns the total value of all products.")
-    public ResponseEntity<Double> sumValue(){
+    public ResponseEntity<BigDecimal> sumValue(){
         return new ResponseEntity<>(productService.sumValue(), HttpStatus.OK);
     }
 
