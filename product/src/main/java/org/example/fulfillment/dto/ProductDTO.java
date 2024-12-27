@@ -1,10 +1,7 @@
-package org.example.dto;
+package org.example.fulfillment.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,9 +22,11 @@ public class ProductDTO {
     private String fulfillmentCenter;
     @NotNull
     @Positive(message = "Quantity cannot be a negative number" )
+    @Min(value = 1, message = "Quantity must be at least 1")
     private int quantity;
     @NotNull
     @Positive(message = "Value cannot be a negative number" )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "##0.00")
+    @DecimalMin(value = "0.01", message = "Value must be greater than or equal to 0.01")
     private BigDecimal value;
 }

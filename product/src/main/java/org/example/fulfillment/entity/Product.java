@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.fulfillment.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;

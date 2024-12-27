@@ -1,13 +1,14 @@
-package org.example.controllers;
+package org.example.fulfillment.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import org.example.dto.ProductDTO;
-import org.example.entity.Product;
-import org.example.services.ProductService;
+import org.example.fulfillment.dto.ProductDTO;
+import org.example.fulfillment.entity.Product;
+import org.example.fulfillment.services.ProductService;
+import org.example.fulfillment.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -61,9 +62,11 @@ public class ProductController {
     @Operation(summary = "Delete a product",
             description = "Deletes the product with the specified ID.")
     public HttpStatus delete(@PathVariable @Min(1) Long id) {
+        Product product = productService.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with ID " + id + " not found"));
         productService.delete(id);
         return HttpStatus.OK;
     }
+
     @PutMapping("/load-csv")
     @Operation(summary = "Load products from CSV",
             description = "Loads product data from a CSV file.")

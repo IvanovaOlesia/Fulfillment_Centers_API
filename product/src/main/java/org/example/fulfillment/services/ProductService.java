@@ -1,10 +1,10 @@
-package org.example.services;
+package org.example.fulfillment.services;
 
 import com.opencsv.CSVReader;
+import org.example.fulfillment.dto.ProductDTO;
+import org.example.fulfillment.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.example.dto.ProductDTO;
-import org.example.entity.Product;
-import org.example.repositories.ProductRepository;
+import org.example.fulfillment.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -64,5 +65,8 @@ public class ProductService {
     }
     public BigDecimal sumValue(){
         return productRepository.sumValueByStatus();
+    }
+    public Optional<Product> findById(Long id){
+        return productRepository.findById(id);
     }
 }
