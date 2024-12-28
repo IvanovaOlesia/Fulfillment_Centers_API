@@ -61,10 +61,10 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a product",
             description = "Deletes the product with the specified ID.")
-    public HttpStatus delete(@PathVariable @Min(1) Long id) {
+    public ResponseEntity<?> delete(@PathVariable @Min(1) Long id) {
         Product product = productService.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with ID " + id + " not found"));
         productService.delete(id);
-        return HttpStatus.OK;
+        return new ResponseEntity<>("Product " + product.getId() + " deleted successfully",HttpStatus.OK );
     }
 
     @PutMapping("/load-csv")

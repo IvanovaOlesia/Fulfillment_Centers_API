@@ -22,7 +22,7 @@ public class ProductDTO {
     private String fulfillmentCenter;
     @NotNull
     @Positive(message = "Quantity cannot be a negative number" )
-    @Min(value = 1, message = "Quantity must be at least 1")
+    @Min(value = 0, message = "Quantity must be at least 1")
     private int quantity;
     @NotNull
     @Positive(message = "Value cannot be a negative number" )

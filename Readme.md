@@ -107,6 +107,7 @@ GET http://localhost:8080/api/products
 ```json
 [
   {
+    "id": 1,
     "productId": "p1",
     "status": "Sellable",
     "fulfillmentCenter": "fc1",
@@ -114,6 +115,7 @@ GET http://localhost:8080/api/products
     "value": 50.0
   },
   {
+    "id": 2,
     "productId": "p2",
     "status": "Unfulfillable",
     "fulfillmentCenter": "fc2",
@@ -140,6 +142,7 @@ GET http://localhost:8080/api/products/status/Sellable
 ```json
 [
   {
+    "id": 1,
     "productId": "p1",
     "status": "Sellable",
     "fulfillmentCenter": "fc1",
@@ -172,6 +175,7 @@ Content-Type: application/json
 
 ```json
 {
+  "id": 3,
   "productId": "p3",
   "status": "Inbound",
   "fulfillmentCenter": "fc3",
@@ -181,25 +185,16 @@ Content-Type: application/json
 ```
 
 ### 4. Обновление информации о продукте
-   PUT ```/api/products/{productId}```
+   PUT ```/api/products```
 
-Обновляет данные о продукте по его идентификатору.
+Обновляет данные о продукте.
 
 Пример запроса:
 ```http
 
-PUT http://localhost:8080/api/products/p1
+PUT http://localhost:8080/api/products
 Content-Type: application/json
 
-{
-"status": "Sellable",
-"fulfillmentCenter": "fc1",
-"quantity": 150,
-"value": 55.0
-}
-```
-Пример ответа:
-```json
 {
 "productId": "p1",
 "status": "Sellable",
@@ -208,48 +203,42 @@ Content-Type: application/json
 "value": 55.0
 }
 ```
+Пример ответа:
+```json
+{
+"id": 203,
+"productId": "p1",
+"status": "Sellable",
+"fulfillmentCenter": "fc1",
+"quantity": 150,
+"value": 55.0
+}
+```
 ### 5. Удаление продукта
-   DELETE ```/api/products/{productId}```
+   DELETE ```/api/products/{id}```
 
 Удаляет продукт по его идентификатору.
 
 Пример запроса:
 ```http
-DELETE http://localhost:8080/api/products/p1
+DELETE http://localhost:8080/api/products/1
 ```
 Пример ответа:
 ```json
 {
-"message": "Product p1 deleted successfully"
+"message": "Product 1 deleted successfully"
 }
 ```
 ### 6. Вычисление общего значения продуктов с состоянием "Sellable"
-   GET ```/api/products/value/sellable```
+   GET ```/api/products/value```
 
 Возвращает общее значение всех продуктов с состоянием Sellable.
 
 Пример запроса:
 ```http
-GET http://localhost:8080/api/products/value/sellable
+GET http://localhost:8080/api/products/value
 ```
 Пример ответа:
-```json
-{
-"totalValue": 5000.0
-}
 ```
-### 7. Вычисление общего значения продуктов для конкретного Fulfillment Center
-   GET ```/api/products/value/fulfillment-center/{fulfillmentCenter}```
-
-Возвращает общее значение всех продуктов для конкретного центра выполнения.
-
-Пример запроса:
-```http
-GET http://localhost:8080/api/products/value/fulfillment-center/fc1
-```
-Пример ответа:
-```json
-{
-"totalValue": 3000.0
-}
+5000.0
 ```
