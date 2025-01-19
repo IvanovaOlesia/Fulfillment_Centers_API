@@ -36,7 +36,7 @@ public class ProductController {
     @Operation(summary = "Get all products",
             description = "Retrieves a list of all products.")
     public ResponseEntity<List<Product>> readAll() {
-        return new ResponseEntity<>(productService.readAll(), HttpStatus.OK);
+        return new ResponseEntity<>(productService.readAll(),  HttpStatus.OK);
     }
     @GetMapping("/status/{status}")
     @Operation(summary = "Find products by status",
