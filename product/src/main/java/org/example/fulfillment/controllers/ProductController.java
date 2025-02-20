@@ -67,7 +67,7 @@ public class ProductController {
         return new ResponseEntity<>("Product " + product.getId() + " deleted successfully",HttpStatus.OK );
     }
 
-    @PutMapping("/load-csv")
+    @PutMapping("/csv")
     @Operation(summary = "Load products from CSV",
             description = "Loads product data from a CSV file.")
     public HttpStatus loadCsv() {
